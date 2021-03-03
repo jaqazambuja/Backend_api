@@ -4,21 +4,23 @@ const Schema = mongoose.Schema;
 //definindo Models de produto com Mongo
 const Produto = new Schema({
     username:{
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: "usuarios",
         required: true
     },
+
     produto: {
         type: String,
         required: true
     },
-   /* categoria: {
+    /*categoria: {
         type: Schema.Types.ObjectId,
         ref: "categorias",
         required: true
     },*/
-    categoria: {
+   /* categoria: {
         type: String
-    },
+    },*/
     imagem: {
         type: String
        

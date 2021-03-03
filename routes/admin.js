@@ -100,7 +100,7 @@
 
     //Rota para retornar produtos cadastrados em Json
         router.get("/produtos", async (req,res) => {
-            const produtosResponse = await Produto.find()
+            const produtosResponse = await Produto.find().populate("username")
             const produtosJson = await produtosResponse
             
             return res.json(produtosJson)

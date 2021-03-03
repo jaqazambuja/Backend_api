@@ -5,7 +5,7 @@ require("../models/Usuario")
 const Usuario = mongoose.model("usuarios")
 const bcrypt = require("bcryptjs")
 const passport = require("passport")
-
+const nodemailer = require("nodemailer");
 
 router.get("/usuarios/registro", (req, res) => {
     res.render("usuarios/registro")
@@ -58,6 +58,7 @@ router.post("/usuarios/registro", (req,res) => {
                     eAdmin: 1
                 })
 
+              
                 bcrypt.genSalt(10, (erro, salt) => {
                     bcrypt.hash(novoUsuario.senha, salt, (erro, hash) => {
                         if(erro){
@@ -81,6 +82,24 @@ router.post("/usuarios/registro", (req,res) => {
         }).catch((err) => {
             req.flash("error_msg", "Houve um erro interno")
             res.redirect("/")
+        })
+        let transporter = nodemailer.createTransport({
+            host:"smtp.gmail.com",
+            port: 587,
+            secure: false,
+            auth:{
+                user: "projetodandararecode@gmail.com",
+                pass: "squad09pro"
+            }
+        
+        });
+
+        transporter.sendMail({
+            from:"Dandara <gruponoverecode@gmail.com>",
+            to: novoUsuario.email,
+            subject: "Email de teste",
+            text: "Bem vinda ao projeto Dandara, vamos verificar seus dados e liberaremos seu cadastrao, até mais",
+            html: "<a href='https://localhost:3000'>CLique para ir ao Dandara</a>"
         })
 
     }
